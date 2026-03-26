@@ -250,7 +250,7 @@ def main(base_path,proj,code,movies_properties,nn):
             n_sub = df_sub["subject"].nunique()
 
             if n_sub < 2:
-                print(f"Skipping {movie_name} / {subset_name}: fewer than 2 subjects.")
+                print(f"Skipping {curr_mov} / {subset_name}: fewer than 2 subjects.")
                 continue
 
             # Correlation
