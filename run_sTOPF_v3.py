@@ -7,6 +7,8 @@ import socket
 import _1a_sTOPF_PCA_all
 import _1b_sTOPF_PCA_per_sex
 import _1c_sTOPF_loo_PCA
+import _2a_pairw_subj_similarity
+
 # import _2a_sTOPF_result_full_group_PCA
 # import _2b_sTOPF_individual_expressions
 # import _3_sTOPF_analyse_results
@@ -67,10 +69,6 @@ if "cpu" in hostname: # Run on Juseless
 else:
     # Local setup for testing 
     
-    base_path =  "/Users/sweis/Data/Arbeit/Juseless/data/project/brainvar_sexdiff_movies" 
-    project_ext = "v4"
-    code_ext = "v3"
-
     # dataset_list = ["BOLD_Schaefer400_subcor36_mean_task-dps_MOVIES_INM7", "BOLD_Schaefer400_subcor36_mean_task-tgtbtu_MOVIES_INM7"] # only 2 movies
     # dataset = "BOLD_Schaefer400_subcor36_mean_task-dps_MOVIES_INM7.csv" 
     # base_path =  "/Users/kbauer/Desktop/master thesis/codes/fMRIdata" 
@@ -80,21 +78,24 @@ else:
     # exclude_path = f"{base_path}/outlier_results/excluded_subjects.csv"
     # Parameter for Mutual Information Estimation
     
-    nn_mi = 17
+    # Define movie timepoint parameters
+    #mov_prop = {
+    #    "DD": {"min_timepoint": 6, "max_timepoint": 463},
+    #    "S": {"min_timepoint": 6, "max_timepoint": 445},
+    #    "DPS": {"min_timepoint": 6, "max_timepoint": 479},
+    #    "FG": {"min_timepoint": 6, "max_timepoint": 591},
+    #    "DMV": {"min_timepoint": 6, "max_timepoint": 522},
+    #    "LIB": {"min_timepoint": 6, "max_timepoint": 454},
+    #    "TGTBTU": {"min_timepoint": 6, "max_timepoint": 512},
+    #    "SS": {"min_timepoint": 6, "max_timepoint": 642},
+    #    "REST1": {"min_timepoint": 6, "max_timepoint": 499},
+    #    "REST2": {"min_timepoint": 6, "max_timepoint": 499}
+    #}
 
-# Define movie timepoint parameters
-#mov_prop = {
-#    "DD": {"min_timepoint": 6, "max_timepoint": 463},
-#    "S": {"min_timepoint": 6, "max_timepoint": 445},
-#    "DPS": {"min_timepoint": 6, "max_timepoint": 479},
-#    "FG": {"min_timepoint": 6, "max_timepoint": 591},
-#    "DMV": {"min_timepoint": 6, "max_timepoint": 522},
-#    "LIB": {"min_timepoint": 6, "max_timepoint": 454},
-#    "TGTBTU": {"min_timepoint": 6, "max_timepoint": 512},
-#    "SS": {"min_timepoint": 6, "max_timepoint": 642},
-#    "REST1": {"min_timepoint": 6, "max_timepoint": 499},
-#    "REST2": {"min_timepoint": 6, "max_timepoint": 499}
-#}
+    base_path =  "/Users/sweis/Data/Arbeit/Juseless/data/project/brainvar_sexdiff_movies" 
+    project_ext = "v4"
+    code_ext = "v3"
+    nn_mi = 17
 
 # mov_prop are new read in from file
 data_path = f"{base_path}/data_run_sTOPF_{project_ext}"
@@ -116,9 +117,10 @@ for path in [base_path]:
 print(f"\n Path and Files found: \n - {base_path}\n")    
 
 
-_1a_sTOPF_PCA_all.main(base_path, project_ext, code_ext, mov_prop)
-_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
-_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
+#_1a_sTOPF_PCA_all.main(base_path, project_ext, code_ext, mov_prop)
+#_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
+#_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
+_2a_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 
 # _2a_sTOPF_result_full_group_PCA.main(base_path, project_ext, nn_mi, mov_prop)
 # _2b_sTOPF_individual_expressions.main(base_path, project_ext, nn_mi, mov_prop)
