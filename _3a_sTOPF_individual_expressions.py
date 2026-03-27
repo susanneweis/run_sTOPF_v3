@@ -51,14 +51,14 @@ def  comp_exp(pca_s_fem,pca_s_mal,reg,nn, sub_movie):
 
 
 
-def main(base_path,proj,nn_mi,movies_properties): 
+def main(base_path,proj,code,nn_mi,movies_properties): 
     # Local setup for testing 
     # for Juseless Version see Kristina's code: PCA_foreachsex_allROI_latestversion.py
 
     data_path = f"{base_path}/data_run_sTOPF_{proj}"
 
-    results_path = f"{base_path}/results_run_sTOPF_v2_data_{proj}"
-    results_out_path = f"{base_path}/results_run_sTOPF_v2_data_{proj}/results_nn{nn_mi}"
+    results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
+    results_out_path = f"{results_path}/results_nn{nn_mi}"
 
 
     ind_path = f"{results_out_path}/individual_expressions_nn{nn_mi}"
