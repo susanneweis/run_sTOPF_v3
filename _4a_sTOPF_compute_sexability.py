@@ -25,7 +25,7 @@ def compute_cohens_d(group1, group2):
 def main(base_path, proj, code, nn):
     
     #change
-    results_in_path = f"{base_path}/results_run_sTOPF_{code_ext}_data_{proj_ext}/results_nn{nn}"
+    results_in_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_nn{nn}"
     
     #results_in_path = "/Users/sweis/Data/Arbeit/Juseless/data/project/brainvar_sexdiff_movies/results_run_sTOPF_v2_data_v4/results_nn17/"
     
