@@ -1,6 +1,9 @@
 
 import pandas as pd
 import seaborn as sns
+import glob
+import os
+import matplotlib.pyplot as plt
 
 
 def compute_region_summary(pairwise_file, explained_var_file, movie_name, value_col="value"):
@@ -44,8 +47,7 @@ def compute_region_summary(pairwise_file, explained_var_file, movie_name, value_
 
     return df_merge
 
-import glob
-import os
+
 
 def build_full_dataset(pairwise_dir, pair_file, explained_var_dir, expl_file, metric):
     """
@@ -84,9 +86,6 @@ def build_full_dataset(pairwise_dir, pair_file, explained_var_dir, expl_file, me
 
     full_df = pd.concat(all_dfs, ignore_index=True)
     return full_df
-
-
-import matplotlib.pyplot as plt
 
 
 def plot_similarity_vs_variance(full_df, title, out_path, out_file):
@@ -134,7 +133,7 @@ def plot_similarity_vs_variance(full_df, title, out_path, out_file):
 
 def main(base_path,proj,code,movies_properties,nn): 
 
-    pairwise_dir = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/pairwise_subject_similarity_nn{nn}/"
+    pairwise_dir = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_nn{nn}/pairwise_subject_similarity_nn{nn}/"
 
     #movies = list(movies_properties.keys())
 
@@ -169,4 +168,7 @@ def main(base_path,proj,code,movies_properties,nn):
         df_corr = build_full_dataset(pairwise_dir, pair_file, explained_var_dir, explained_file, metric)
         plot_similarity_vs_variance(df_corr, title, pairwise_dir, out_file)
 
-    
+
+# Execute script
+if __name__ == "__main__":
+    main()

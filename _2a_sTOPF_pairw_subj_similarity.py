@@ -140,14 +140,12 @@ def main(base_path,proj,code,movies_properties,nn):
 
     data_path = f"{base_path}/data_run_sTOPF_{proj}"
 
-    results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/pairwise_subject_similarity_nn{nn}/"
+    results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_nn{nn}/pairwise_subject_similarity_nn{nn}/"
     os.makedirs(results_path, exist_ok=True)
  
     phenotype_path = f"{data_path}/Participant_sex_info.csv"
     complete_participants_path = f"{data_path}/complete_participants.csv"
     excluded_participants_path = f"{data_path}/excluded_participants.csv"
-
-
 
     movies = list(movies_properties.keys())
 
@@ -280,3 +278,8 @@ def main(base_path,proj,code,movies_properties,nn):
             print(f"Saved {curr_mov} / {subset_name}: corr + mi")
 
         print(f"Finished movie: {curr_mov}")
+
+
+# Execute script
+if __name__ == "__main__":
+    main()

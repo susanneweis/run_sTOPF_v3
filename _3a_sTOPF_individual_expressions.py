@@ -137,7 +137,7 @@ def main(base_path,proj,code,nn_mi,movies_properties):
             #   output_dir =r_rootdir # Remote root directory
             #else:
 
-            pca_path = f"{results_path}/results_PCA/{curr_mov}/{subj}"
+            pca_path = f"{results_path}/results_PCA_loo/{curr_mov}/{subj}"
             pca_scores_female = pd.read_csv(f"{pca_path}/PC1_scores_female_allROI.csv")
             pca_scores_male=  pd.read_csv(f"{pca_path}/PC1_scores_male_allROI.csv")
 
@@ -152,7 +152,7 @@ def main(base_path,proj,code,nn_mi,movies_properties):
 
 
         # concatenated movie
-        pca_path = f"{results_path}/results_PCA/concatenated_PCA/{subj}"
+        pca_path = f"{results_path}/results_PCA_loo/concatenated_PCA/{subj}"
         pca_scores_female = pd.read_csv(f"{pca_path}/PC1_scores_female_allROI.csv")
         pca_scores_male=  pd.read_csv(f"{pca_path}/PC1_scores_male_allROI.csv")
 
