@@ -74,6 +74,10 @@ def compute_pairwise_similarity_long(
         pivot = df_sub.pivot(index="timepoint", columns="subject", values=region)
         pivot = pivot.sort_index()
 
+        # added this late, possibly delete again
+        # standardize per subject time series
+        pivot = pivot.apply(lambda col: (col - col.mean()) / col.std() if col.std() > 0 else col, axis=0)
+
         # keep only subjects that actually exist in this pivot
         available_subjects = [s for s in subjects if s in pivot.columns]
 
