@@ -122,7 +122,10 @@ def main(base_path,proj,code,nn_mi,movies_properties):
             print(f"movie properties {curr_mov}", movie_data["timepoint"].min(), movie_data["timepoint"].max(),"\n") 
             
             subj_movie_data = movie_data.loc[movie_data["subject"] == subj].copy()
-            sub_movie_data_concat = pd.concat([sub_movie_data_concat, subj_movie_data], axis=0, ignore_index=True)
+
+            # exclude REST1 und REST2
+            if curr_mov not in ["REST1", "REST2"]:
+                sub_movie_data_concat = pd.concat([sub_movie_data_concat, subj_movie_data], axis=0, ignore_index=True)
 
             # Define the output directory
             # if hostname == "cpu44":
