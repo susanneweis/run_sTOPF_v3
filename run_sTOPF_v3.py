@@ -121,11 +121,11 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 
 
 #_1a_sTOPF_PCA_all.main(base_path, project_ext, code_ext, mov_prop)
-_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
+#_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
 #_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
 #_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
-#_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
+_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
 #_4a_sTOPF_compute_sexability_zwi.main(base_path, project_ext, code_ext, nn_mi)
 
 

@@ -10,16 +10,16 @@ def  comp_exp(pca_s_fem,pca_s_mal,reg,nn, sub_movie):
     pca_fem = pca_s_fem.loc[pca_s_fem["Region"] == reg, "PC_score_1"]
     pca_mal = pca_s_mal.loc[pca_s_mal["Region"] == reg, "PC_score_1"]
 
-    rf, p = pearsonr(sub_movie[reg], pca_fem)
-    rm, p = pearsonr(sub_movie[reg], pca_mal)
-
-    diff = np.arctanh(rf) - np.arctanh(rm)
-    diff = np.tanh(diff)
-
     # standardize
     y = (sub_movie[reg] - np.mean(sub_movie[reg])) / np.std(sub_movie[reg])
     xf = (pca_fem - np.mean(pca_fem)) / np.std(pca_fem)
     xm = (pca_mal - np.mean(pca_mal)) / np.std(pca_mal)
+
+    rf, p = pearsonr(y, xf)
+    rm, p = pearsonr(y, xm)
+
+    diff = np.arctanh(rf) - np.arctanh(rm)
+    diff = np.tanh(diff)
 
     # design matrix
     X = np.column_stack([xf, xm])
@@ -30,17 +30,9 @@ def  comp_exp(pca_s_fem,pca_s_mal,reg,nn, sub_movie):
     fem_similarity = (beta_f - beta_m) / (abs(beta_f) + abs(beta_m))
 
     # mutual information
-    df_y = pd.DataFrame(y)
-    df_xf = pd.DataFrame(xf)
-    df_xm = pd.DataFrame(xm)
-
-    df_y = (df_y - df_y.mean()) / df_y.std(ddof=1)
-    df_xf = (df_xf - df_xf.mean()) / df_xf.std(ddof=1)
-    df_xm = (df_xm - df_xm.mean()) / df_xm.std(ddof=1)
-
-    X = np.column_stack([df_xm, df_xf])  # shape (T, 2)
-    y = df_y                       # shape (T,)
-
+  
+    X = np.column_stack([xm, xf])  # shape (T, 2)
+  
     mi = mutual_info_regression(X, y, n_neighbors=nn, random_state = 42)
     mi_m = mi[0]
     mi_f = mi[1]
