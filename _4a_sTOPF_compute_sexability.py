@@ -46,7 +46,7 @@ def main(base_path, proj, code, nn):
         # =========================
         # SETTINGS
         # =========================
-        metrics = ["corr", f"mi_{nn}"]
+        metrics = ["corr", f"mi_nn{nn}"]
 
         #sex_mapping = {1: 'male', 2: 'female'}
         #male_label = [k for k, v in sex_mapping.items() if v == 'male'][0]
@@ -64,6 +64,7 @@ def main(base_path, proj, code, nn):
             #     met = "fem_vs_mal_corr"
             # else:
             #     met = "fem_vs_mal_mi"
+          
             if metric == "corr":
                 if sex == "female":
                     met = "correlation_female"
@@ -112,7 +113,7 @@ def main(base_path, proj, code, nn):
 
                 cluster_assign_file = out_path
                 title = f"Sexability {movie} {metric} {sex}"
-                name_str = f"Sexability_nn{nn}_{movie}_{metric}_{sex}"
+                name_str = f"Sexability_{movie}_{metric}_{sex}"
 
                 create_glassbrains(cluster_assign_file, "cohens_d", "region",roi_names, atlas_path, title, results_glass_path, name_str,"continuous")
 
@@ -124,7 +125,7 @@ def main(base_path, proj, code, nn):
                 out_df.to_csv(out_path, index=False)
                 cluster_assign_file = out_path
                 title = f"Sexability {movie} {metric} {sex} masked"
-                name_str = f"Sexability_nn{nn}_{movie}_{metric}_{sex}_masked"
+                name_str = f"Sexability_{movie}_{metric}_{sex}_masked"
 
                 create_glassbrains(cluster_assign_file, "cohens_d", "region",roi_names, atlas_path, title, results_glass_path, name_str,"continuous")
 
