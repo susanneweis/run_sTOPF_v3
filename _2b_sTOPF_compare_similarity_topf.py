@@ -90,6 +90,10 @@ def build_full_dataset(pairwise_dir, pair_file, explained_var_dir, expl_file, me
 
 def plot_similarity_vs_variance(full_df, title, out_path, out_file):
     
+    # test added
+    full_df["explained_variance_z"] = full_df.groupby("movie")["explained_variance"].transform(lambda x: (x - x.mean()) / x.std())
+    full_df["mean_similarity_z"] = full_df.groupby("movie")["mean_similarity"].transform(lambda x: (x - x.mean()) / x.std())
+
     plt.figure(figsize=(6, 5))
 
     plt.scatter(
@@ -107,7 +111,7 @@ def plot_similarity_vs_variance(full_df, title, out_path, out_file):
     plt.title(f"{title} (r = {r:.2f})")
 
     plt.tight_layout()
-    plt.show()
+    #plt.show()
 
     plt.savefig(f"{out_path}/{out_file}", bbox_inches='tight',dpi=300)
     plt.close()
@@ -124,7 +128,7 @@ def plot_similarity_vs_variance(full_df, title, out_path, out_file):
 
     plt.xlabel("Explained variance (PC1)")
     plt.ylabel("Mean similarity")
-    plt.title(title)
+    plt.title(f"{title} (r = {r:.2f})")
 
     plt.tight_layout()
     plt.savefig(f"{out_path}/{out_file}_2", dpi=300)
