@@ -198,7 +198,7 @@ def main(base_path, proj, code, movies_properties):
         for movie in movies[:-2]
     ]
 
-    output_dir = f"{results_path}/concatenated_PCA" # Local results directory
+    output_dir = f"{results_path}/concatenated" # Local results directory
     if not os.path.exists(output_dir):
 
         os.makedirs(output_dir, exist_ok=True) # Create the output directory if it doesn't exist

@@ -83,7 +83,7 @@ def main(base_path, proj, code, nn):
                 else:
                     met = "fem_vs_mal_mi"
             
-            results_glass_path = f"{results_out_path}/glass_brains"
+            results_glass_path = f"{results_out_path}/figures"
             os.makedirs(results_glass_path, exist_ok=True)
 
             for movie in movies:
@@ -123,7 +123,14 @@ def main(base_path, proj, code, nn):
 
                 create_glassbrains(cluster_assign_file, "cohens_d", "region",roi_names, atlas_path, title, results_glass_path, name_str,"continuous")
 
-                out_df.loc[out_df["cohens_d"] < 0, "cohens_d"] = 0
+                if sex == "male":
+                    # expected negative 
+                    out_df.loc[out_df["cohens_d"] > 0, "cohens_d"] = 0
+                else:
+                    out_df.loc[out_df["cohens_d"] < 0, "cohens_d"] = 0
+                    
+
+                #out_df.loc[out_df["cohens_d"] < 0, "cohens_d"] = 0
                 out_path = os.path.join(
                     results_out_path,
                     f"cohens_d_{movie}_{metric}_{sex}_masked.csv"
