@@ -42,7 +42,7 @@ def compute_regionwise_stability(full_df, loo_df, use_abs=True):
     return np.array(corrs), list(full_df.columns)
 
 
-def main(base_path, proj, code):
+def main(base_path, proj, code, movies_properties):
 
     base_full = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_per_sex"
     base_loo = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_loo"
@@ -60,13 +60,16 @@ def main(base_path, proj, code):
 
     # change later
 
-    mv = ["DD", "S","DPS"]
-
+    #mv = ["DD", "S","DPS"]
+    mv = list(movies_properties.keys())
+    mv = mv[:-2]
+    
     movies = [
         os.path.join(base_full, m)
         for m in mv
         if os.path.isdir(os.path.join(base_full, m))
     ]
+
     #movies = sorted(
     #    [p for p in glob(os.path.join(base_full, "*")) if os.path.isdir(p)]
     #)
