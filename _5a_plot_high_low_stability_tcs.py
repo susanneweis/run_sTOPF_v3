@@ -3,6 +3,77 @@ import glob
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# =========================
+# Plotting function
+ # =========================
+def plot_region_set(male_df, female_df, region_list, stability_map, movie_name, set_name, out_file):
+    
+    # =========================
+    # 🔥 Sort regions by stability
+    # =========================
+    region_list = sorted(
+        region_list,
+        key=lambda r: stability_map.get(r, float("inf"))
+    )
+
+    fig, axes = plt.subplots(
+        len(region_list),
+        1,
+        figsize=(12, 2.5 * len(region_list)),
+        sharex=False
+    )
+
+    if len(region_list) == 1:
+        axes = [axes]
+
+    # common y-axis within figure
+    all_vals = []
+    for region in region_list:
+        all_vals.extend(male_df.loc[male_df["Region"] == region, "PC_score_1"].tolist())
+        all_vals.extend(female_df.loc[female_df["Region"] == region, "PC_score_1"].tolist())
+
+    if len(all_vals) > 0:
+        y_min = min(all_vals)
+        y_max = max(all_vals)
+    else:
+        y_min, y_max = -1, 1
+
+    for ax, region in zip(axes, region_list):
+        male_ts = male_df.loc[male_df["Region"] == region, "PC_score_1"].values
+        female_ts = female_df.loc[female_df["Region"] == region, "PC_score_1"].values
+
+        stability = stability_map.get(region, None)
+
+        if stability is not None:
+            title = f"{region}  |  stability = {stability:.3f}"
+        else:
+            title = f"{region}  |  stability = NA"
+
+        if len(male_ts) == 0 and len(female_ts) == 0:
+            ax.text(
+                0.5, 0.5,
+                f"{region}\nnot found",
+                ha="center", va="center",
+                transform=ax.transAxes
+            )
+            ax.set_title(title)
+            ax.set_ylim(y_min, y_max)
+            continue
+
+        if len(male_ts) > 0:
+            ax.plot(male_ts, label="Male")
+        if len(female_ts) > 0:
+            ax.plot(female_ts, label="Female")
+
+        ax.set_title(title)
+        ax.set_ylim(y_min, y_max)
+        ax.legend()
+
+    fig.suptitle(f"{movie_name} – {set_name}", fontsize=14)
+    plt.tight_layout(rect=[0, 0, 1, 0.98])
+    plt.savefig(out_file, dpi=300, bbox_inches="tight")
+    plt.close()
+
 def main(base_path, proj, code, nn, top_n):
     # =========================
     # Paths
@@ -33,6 +104,9 @@ def main(base_path, proj, code, nn, top_n):
         .copy()
     )
 
+    lowest_stability_map = dict(zip(lowest_df["region"], lowest_df["stability_score"]))
+    highest_stability_map = dict(zip(highest_df["region"], highest_df["stability_score"]))
+
     lowest_regions = lowest_df["region"].tolist()
     highest_regions = highest_df["region"].tolist()
 
@@ -45,62 +119,6 @@ def main(base_path, proj, code, nn, top_n):
 
     lowest_df.to_csv(lowest_csv, index=False)
     highest_df.to_csv(highest_csv, index=False)
-
-
-    # =========================
-    # Plotting function
-    # =========================
-    def plot_region_set(male_df, female_df, region_list, movie_name, set_name, out_file):
-        fig, axes = plt.subplots(
-            len(region_list),
-            1,
-            figsize=(12, 2.5 * len(region_list)),
-            sharex=False
-        )
-
-        if len(region_list) == 1:
-            axes = [axes]
-
-        # common y-axis within figure
-        all_vals = []
-        for region in region_list:
-            all_vals.extend(male_df.loc[male_df["Region"] == region, "PC_score_1"].tolist())
-            all_vals.extend(female_df.loc[female_df["Region"] == region, "PC_score_1"].tolist())
-
-        if len(all_vals) > 0:
-            y_min = min(all_vals)
-            y_max = max(all_vals)
-        else:
-            y_min, y_max = -1, 1
-
-        for ax, region in zip(axes, region_list):
-            male_ts = male_df.loc[male_df["Region"] == region, "PC_score_1"].values
-            female_ts = female_df.loc[female_df["Region"] == region, "PC_score_1"].values
-
-            if len(male_ts) == 0 and len(female_ts) == 0:
-                ax.text(
-                    0.5, 0.5,
-                    f"{region}\nnot found",
-                    ha="center", va="center",
-                    transform=ax.transAxes
-                )
-                ax.set_title(region)
-                ax.set_ylim(y_min, y_max)
-                continue
-
-            if len(male_ts) > 0:
-                ax.plot(male_ts, label="Male")
-            if len(female_ts) > 0:
-                ax.plot(female_ts, label="Female")
-
-            ax.set_title(region)
-            ax.set_ylim(y_min, y_max)
-            ax.legend()
-
-        fig.suptitle(f"{movie_name} – {set_name}", fontsize=14)
-        plt.tight_layout(rect=[0, 0, 1, 0.98])
-        plt.savefig(out_file, dpi=300, bbox_inches="tight")
-        plt.close()
 
 
     # =========================
@@ -138,6 +156,7 @@ def main(base_path, proj, code, nn, top_n):
             male_df=male_df,
             female_df=female_df,
             region_list=lowest_regions,
+            stability_map=lowest_stability_map,
             movie_name=movie_name,
             set_name=f"lowest {top_n} stability regions",
             out_file=out_low
@@ -147,6 +166,7 @@ def main(base_path, proj, code, nn, top_n):
             male_df=male_df,
             female_df=female_df,
             region_list=highest_regions,
+            stability_map=highest_stability_map,
             movie_name=movie_name,
             set_name=f"highest {top_n} stability regions",
             out_file=out_high
