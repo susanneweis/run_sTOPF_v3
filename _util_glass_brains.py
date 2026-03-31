@@ -69,6 +69,11 @@ def fill_glassbrain(n_r,res_df,column):
 
 def create_glassbrains(value_file, value_name, value_roi_name, roi_names, at_path, title_str,out_path, name, cmap_mode):
 
+    out_glass = f"{out_path}/glassbrains/"
+    os.makedirs(out_glass, exist_ok=True)
+    out_sl = f"{out_path}/slices/"
+    os.makedirs(out_sl, exist_ok=True)
+
     roi_data = pd.read_csv(value_file)
         
     n_roi = roi_data[value_roi_name].nunique()
@@ -79,8 +84,8 @@ def create_glassbrains(value_file, value_name, value_roi_name, roi_names, at_pat
 
     if roi_values.max() > roi_values.min():
             
-        output_file = f"{out_path}/glassbrain_{name}.png"
-        output_file_sl = f"{out_path}/slices_{name}.png"
+        output_file = f"{out_glass}/glassbrain_{name}.png"
+        output_file_sl = f"{out_sl}/slices_{name}.png"
 
         # Create image
         img = create_img_for_glassbrain_plot(roi_values, at_path, n_roi)

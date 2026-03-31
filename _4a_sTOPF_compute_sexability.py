@@ -27,10 +27,9 @@ def main(base_path, proj, code, nn):
 
     results_in_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_nn{nn}"
       
-    results_out_path = f"{results_in_path}/sexability_nn{nn}"
-    os.makedirs(results_out_path, exist_ok=True)
-    results_glass_path = f"{results_out_path}/glass_brains"
-    os.makedirs(results_glass_path, exist_ok=True)
+    results_out = f"{results_in_path}/sexability_nn{nn}"
+    os.makedirs(results_out, exist_ok=True)
+  
 
     data_path = f"{base_path}/data_run_sTOPF_{proj}"
     atlas_path = f"{data_path}/Susanne_Schaefer_436.nii"
@@ -66,6 +65,8 @@ def main(base_path, proj, code, nn):
             #     met = "fem_vs_mal_mi"
           
             if metric == "corr":
+                results_out_path = f"{results_out}/corr/"
+                os.makedirs(results_out_path, exist_ok=True)
                 if sex == "female":
                     met = "correlation_female"
                 elif sex == "male":
@@ -73,12 +74,17 @@ def main(base_path, proj, code, nn):
                 else:
                     met = "fem_vs_mal_corr"
             else:
+                results_out_path = f"{results_out}/nn{nn}/"
+                os.makedirs(results_out_path, exist_ok=True)
                 if sex == "female":
                     met = "fem_mi"
                 elif sex == "male":
                     met = "mal_mi"
                 else:
                     met = "fem_vs_mal_mi"
+            
+            results_glass_path = f"{results_out_path}/glass_brains"
+            os.makedirs(results_glass_path, exist_ok=True)
 
             for movie in movies:
                 
