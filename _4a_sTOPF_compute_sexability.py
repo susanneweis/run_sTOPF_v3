@@ -65,7 +65,7 @@ def main(base_path, proj, code, nn):
             #     met = "fem_vs_mal_mi"
           
             if metric == "corr":
-                results_out_path = f"{results_out}/corr/"
+                results_out_path = f"{results_out}/{metric}"
                 os.makedirs(results_out_path, exist_ok=True)
                 if sex == "female":
                     met = "correlation_female"
@@ -74,7 +74,7 @@ def main(base_path, proj, code, nn):
                 else:
                     met = "fem_vs_mal_corr"
             else:
-                results_out_path = f"{results_out}/nn{nn}/"
+                results_out_path = f"{results_out}/{metric}/"
                 os.makedirs(results_out_path, exist_ok=True)
                 if sex == "female":
                     met = "fem_mi"

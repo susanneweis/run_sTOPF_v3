@@ -177,14 +177,9 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
     in_path = f"{results_path}/sexability_nn{nn_mi}"
 
     if len(movies) == 7:
-        results_out_path = f"{in_path}/sexability_sensitivity_no_sub_fac_nn{nn_mi}"
+        results_out = f"{in_path}/shared_and_specific_nn{nn_mi}"
     elif len(movies) == 8:
-        results_out_path = f"{in_path}/sexability_sensitivity_no_sub_fac_with_ss_nn{nn_mi}"
-
-    os.makedirs(results_out_path, exist_ok=True)
-
-    results_g_path = f"{results_out_path}/glass_brains"
-    os.makedirs(results_g_path, exist_ok=True)
+        results_out = f"{in_path}/shared_and_specific_ss_nn{nn_mi}"
 
     region_col="region"
     score = "cohens_d"
@@ -199,11 +194,17 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
 
         for met in ["corr", f"mi_nn{nn_mi}"]:
 
+            results_out_path = f"{results_out}/{met}"
+            os.makedirs(results_out_path, exist_ok=True)
+
+            results_g_path = f"{results_out_path}/figures"
+            os.makedirs(results_g_path, exist_ok=True)
+
             dfs = []
 
             for movie in movies:
 
-                file_path = f"{in_path}/cohens_d_{movie}_{met}_{group}.csv"
+                file_path = f"{in_path}/{met}/cohens_d_{movie}_{met}_{group}.csv"
 
                 if not os.path.exists(file_path):
                     raise FileNotFoundError(f"File not found for movie {movie}: {file_path}")
@@ -271,14 +272,14 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
             # 4. Ranked tables across all movies
             # ------------------------------------------------------------------
             # Most shared = high absolute mean + low variability
-            most_shared = shared_map.sort_values(
-                by="stability_score", ascending=False
-            ).reset_index(drop=True)
+            # most_shared = shared_map.sort_values(
+            #     by="stability_score", ascending=False
+            # ).reset_index(drop=True)
 
-            most_shared.to_csv(
-                os.path.join(results_out_path, f"ranked_most_shared_regions_{group}_{met}.csv"),
-                index=False
-            )
+            # most_shared.to_csv(
+            #     os.path.join(results_out_path, f"ranked_most_shared_regions_{group}_{met}.csv"),
+            #     index=False
+            # )
 
             # most_shared.head(top_n).to_csv(
             #     os.path.join(results_out_path, f"top_{top_n}_most_shared_regions_{metric}.csv"),
@@ -286,14 +287,14 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
             # )
 
             # Most variable across movies
-            most_variable = shared_map.sort_values(
-                by="std_all_movies", ascending=False
-            ).reset_index(drop=True)
+            # most_variable = shared_map.sort_values(
+            #     by="std_all_movies", ascending=False
+            # ).reset_index(drop=True)
 
-            most_variable.to_csv(
-                os.path.join(results_out_path, f"ranked_most_variable_regions_{group}_{met}.csv"),
-                index=False
-            )
+            # most_variable.to_csv(
+            #     os.path.join(results_out_path, f"ranked_most_variable_regions_{group}_{met}.csv"),
+            #     index=False
+            # )
 
             # most_variable.head(top_n).to_csv(
             #     os.path.join(results_out_path, f"top_{top_n}_most_variable_regions_{metric}.csv"),
@@ -301,14 +302,14 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
             # )
 
             # Strongest mean effects regardless of stability
-            strongest_mean = shared_map.sort_values(
-                by="abs_mean_all_movies", ascending=False
-            ).reset_index(drop=True)
+            # strongest_mean = shared_map.sort_values(
+            #     by="abs_mean_all_movies", ascending=False
+            # ).reset_index(drop=True)
 
-            strongest_mean.to_csv(
-                os.path.join(results_out_path, f"ranked_strongest_mean_regions_{group}_{met}.csv"),
-                index=False
-            )
+            # strongest_mean.to_csv(
+            #     os.path.join(results_out_path, f"ranked_strongest_mean_regions_{group}_{met}.csv"),
+            #     index=False
+            # )
 
             # strongest_mean.head(top_n).to_csv(
             #     os.path.join(results_out_path, f"top_{top_n}_strongest_mean_regions_{metric}.csv"),
@@ -360,66 +361,66 @@ def main(base_path, proj, code, nn_mi, mov_prop, atlas_path, roi_names):
                 # Ranked residual tables
                 # -----------------------------
                 # Positive residuals = stronger than expected in this movie
-                pos_resid = out_df.sort_values(by="residual", ascending=False).reset_index(drop=True)
-                pos_resid.to_csv(
-                    os.path.join(results_out_path, f"ranked_positive_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # pos_resid = out_df.sort_values(by="residual", ascending=False).reset_index(drop=True)
+                # pos_resid.to_csv(
+                #     os.path.join(results_out_path, f"ranked_positive_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # pos_resid.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_positive_residuals_{movie}_{metric}.csv"),
                 #     index=False
                 # )
 
                 # Negative residuals = weaker than expected in this movie
-                neg_resid = out_df.sort_values(by="residual", ascending=True).reset_index(drop=True)
-                neg_resid.to_csv(
-                    os.path.join(results_out_path, f"ranked_negative_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # neg_resid = out_df.sort_values(by="residual", ascending=True).reset_index(drop=True)
+                # neg_resid.to_csv(
+                #     os.path.join(results_out_path, f"ranked_negative_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # neg_resid.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_negative_residuals_{movie}_{metric}.csv"),
                 #     index=False
                 # )
 
                 # Absolute residuals = strongest deviations regardless of direction
-                abs_resid = out_df.sort_values(by="abs_residual", ascending=False).reset_index(drop=True)
-                abs_resid.to_csv(
-                    os.path.join(results_out_path, f"ranked_absolute_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # abs_resid = out_df.sort_values(by="abs_residual", ascending=False).reset_index(drop=True)
+                # abs_resid.to_csv(
+                #     os.path.join(results_out_path, f"ranked_absolute_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # abs_resid.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_absolute_residuals_{movie}_{metric}.csv"),
                 #     index=False
                 # )
 
                 # Positive normalized residuals
-                pos_norm = out_df.sort_values(by="normalized_residual", ascending=False).reset_index(drop=True)
-                pos_norm.to_csv(
-                    os.path.join(results_out_path, f"ranked_positive_normalized_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # pos_norm = out_df.sort_values(by="normalized_residual", ascending=False).reset_index(drop=True)
+                # pos_norm.to_csv(
+                #     os.path.join(results_out_path, f"ranked_positive_normalized_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # pos_norm.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_positive_normalized_residuals_{movie}_{metric}.csv"),
                 #     index=False
                 # )
 
                 # Negative normalized residuals
-                neg_norm = out_df.sort_values(by="normalized_residual", ascending=True).reset_index(drop=True)
-                neg_norm.to_csv(
-                    os.path.join(results_out_path, f"ranked_negative_normalized_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # neg_norm = out_df.sort_values(by="normalized_residual", ascending=True).reset_index(drop=True)
+                # neg_norm.to_csv(
+                #     os.path.join(results_out_path, f"ranked_negative_normalized_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # neg_norm.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_negative_normalized_residuals_{movie}_{metric}.csv"),
                 #     index=False
                 # )
 
                 # Absolute normalized residuals
-                abs_norm = out_df.sort_values(by="abs_normalized_residual", ascending=False).reset_index(drop=True)
-                abs_norm.to_csv(
-                    os.path.join(results_out_path, f"ranked_absolute_normalized_residuals_{movie}_{group}_{met}.csv"),
-                    index=False
-                )
+                # abs_norm = out_df.sort_values(by="abs_normalized_residual", ascending=False).reset_index(drop=True)
+                # abs_norm.to_csv(
+                #     os.path.join(results_out_path, f"ranked_absolute_normalized_residuals_{movie}_{group}_{met}.csv"),
+                #     index=False
+                # )
                 # abs_norm.head(top_n).to_csv(
                 #     os.path.join(results_out_path, f"top_{top_n}_absolute_normalized_residuals_{movie}_{metric}.csv"),
                 #     index=False
