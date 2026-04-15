@@ -44,9 +44,9 @@ def compute_regionwise_stability(full_df, loo_df, use_abs=True):
 
 def main(base_path, proj, code, movies_properties):
 
-    base_full = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_per_sex"
-    base_loo = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_loo"
-    out_dir = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
+    out_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
+    base_full = f"{out_path}/results_PCA_per_sex"
+    base_loo = f"{out_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_loo"
     
     data_path = f"{base_path}/data_run_sTOPF_{proj}"
     sex_info_file = f"{data_path}/Participant_sex_info.csv"
@@ -170,7 +170,7 @@ def main(base_path, proj, code, movies_properties):
 
     out_df = pd.DataFrame(results)
 
-    out_path = os.path.join(out_dir, "PC1_stability_summary.csv")
+    out_path = os.path.join(out_path, "PC1_stability_summary.csv")
     out_df.to_csv(out_path, index=False)
 
     print(f"Saved: {out_path}")
