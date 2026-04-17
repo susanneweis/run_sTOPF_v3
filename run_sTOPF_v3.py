@@ -15,7 +15,12 @@ import _2b_sTOPF_compare_similarity_topf
 import _3a_sTOPF_individual_expressions
 import _3b_sTOPF_ind_exp_scatter_plot
 import _4a_sTOPF_compute_sexability
+import _4a2_sTOPF_compute_sexability
+import _4a2_sTOPF_compute_sexability_balanced
 import _4b_sTOPF_sexability_shared_and_specific
+
+import _4c_sTOPF_sexability_detailed
+
 import _5a_plot_high_low_stability_tcs
 
 
@@ -136,10 +141,13 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 #_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
-_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
+#_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
+#_4a2_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
+_4a2_sTOPF_compute_sexability_balanced.main(base_path, project_ext, code_ext, nn_mi)
+
+#_4c_sTOPF_sexability_detailed.main(base_path, project_ext, code_ext, nn_mi)
 
 
-#_4a_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
 #_4b_sTOPF_sexability_shared_and_specific.main(base_path, project_ext, code_ext,nn_mi, mov_prop, atlas_path, roi_names)
 #top_reg = 10
 #_5a_plot_high_low_stability_tcs.main(base_path, project_ext, code_ext, nn_mi, top_reg)

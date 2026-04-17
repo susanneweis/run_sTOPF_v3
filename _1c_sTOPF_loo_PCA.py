@@ -230,7 +230,7 @@ def main(base_path,proj,code,movies_properties):
             for movie in movies[:-2]
         ]
 
-        output_dir = f"{results_path}/concatenated/{subj}" # Local results directory
+        output_dir = f"{results_path}/concat/{subj}" # Local results directory
 
         if not os.path.exists(output_dir):
 
