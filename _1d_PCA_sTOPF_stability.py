@@ -46,7 +46,7 @@ def main(base_path, proj, code, movies_properties):
 
     out_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
     base_full = f"{out_path}/results_PCA_per_sex"
-    base_loo = f"{out_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_loo"
+    base_loo = f"{out_path}/results_PCA_loo"
     
     data_path = f"{base_path}/data_run_sTOPF_{proj}"
     sex_info_file = f"{data_path}/Participant_sex_info.csv"
@@ -62,7 +62,8 @@ def main(base_path, proj, code, movies_properties):
 
     #mv = ["DD", "S","DPS"]
     mv = list(movies_properties.keys())
-    mv = mv[:-2]
+    mv.append("concat")
+    #mv = mv[:-2]
     
     movies = [
         os.path.join(base_full, m)
