@@ -15,6 +15,7 @@ def main(base_path, proj, code, movies_properties):
     roi_names = pd.read_csv(roi_name_file)["roi_name"].tolist()
 
     movies = list(movies_properties.keys())
+    movies.append("concat")
 
     for curr_mov in movies: 
         
