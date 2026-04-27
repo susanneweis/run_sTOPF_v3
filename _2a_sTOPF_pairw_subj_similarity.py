@@ -174,6 +174,7 @@ def main(base_path,proj,code,movies_properties,nn):
     print(f"Number of included valid subjects after exclusion: {len(valid_subjects)}")
 
     movies = list(movies_properties.keys())
+    #movies.append("concat")
 
     for curr_mov in movies: 
 
