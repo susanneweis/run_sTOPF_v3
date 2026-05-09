@@ -16,7 +16,7 @@ def reshape_pc1(df):
     return df.pivot(index="timepoint", columns="Region", values="PC_score_1")
 
 
-def compute_regionwise_stability(full_df, loo_df):
+def compute_regionwise_stability(full_df, loo_df, use_abs=True):
     """
     Compute correlation between full-group PC1 and LOO PC1 for each region.
     Returns:
@@ -37,7 +37,7 @@ def compute_regionwise_stability(full_df, loo_df):
             corrs.append(np.nan)
         else:
             r = np.corrcoef(x, y)[0, 1]
-            corrs.append(r)
+            corrs.append(abs(r) if use_abs else r)
 
     return np.array(corrs), list(full_df.columns)
 
@@ -122,7 +122,7 @@ def main(base_path, proj, code, movies_properties):
             if subj_gender == "female":
                 loo_female = reshape_pc1(pd.read_csv(loo_female_file))
                 corr_female, region_names_f = compute_regionwise_stability(
-                    full_female, loo_female
+                    full_female, loo_female, use_abs=True
                 )
                 corr_female_all.append(corr_female)
 
@@ -130,7 +130,7 @@ def main(base_path, proj, code, movies_properties):
             elif subj_gender == "male":
                 loo_male = reshape_pc1(pd.read_csv(loo_male_file))
                 corr_male, region_names_m = compute_regionwise_stability(
-                    full_male, loo_male
+                    full_male, loo_male, use_abs=True
                 )
                 corr_male_all.append(corr_male)
 

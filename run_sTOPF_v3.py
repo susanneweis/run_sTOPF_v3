@@ -14,8 +14,10 @@ import _2a_sTOPF_pairw_subj_similarity
 import _2b_sTOPF_compare_similarity_topf
 import _3a_sTOPF_individual_expressions
 import _3b_sTOPF_ind_exp_scatter_plot
-import _4a_sTOPF_compute_sexability
+import _4a_sTOPF_sex_separation
+import _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain
 
+#import _4a_sTOPF_compute_sexability
 #import _4a2_sTOPF_compute_sexability
 #import _4a2_sTOPF_compute_sexability_balanced
 #import _4b_sTOPF_sexability_shared_and_specific
@@ -141,7 +143,11 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
 #_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
-_4a_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
+#_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
+_4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+
+ 
+# _4a_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
 
 
 #_4a2_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
