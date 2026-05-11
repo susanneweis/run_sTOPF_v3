@@ -105,7 +105,8 @@ def create_glassbrains(value_file, value_name, value_roi_name, roi_names, at_pat
         elif cmap_mode == "continuous":
 
             # Good continuous choice for symmetric data
-            cmap = plt.cm.RdBu_r
+            #cmap = plt.cm.RdBu_r
+            cmap = "cold_hot"
 
         else:
             raise ValueError("cmap_mode must be 'discrete' or 'continuous'")

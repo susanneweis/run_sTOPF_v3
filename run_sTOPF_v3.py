@@ -15,7 +15,12 @@ import _2b_sTOPF_compare_similarity_topf
 import _3a_sTOPF_individual_expressions
 import _3b_sTOPF_ind_exp_scatter_plot
 import _4a_sTOPF_sex_separation
-import _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain
+import _4b_sTOPF_sex_separation_network_summary
+
+#import _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain_1std
+#import _4b_sTOPF_sex_separation_movie_region_summary_with_3Dbrain_1std
+#import _4d_sTOPF_sex_separation_sub_specific
+#import _4e_sTOPF_sex_separation_sub_specific_networks
 
 #import _4a_sTOPF_compute_sexability
 #import _4a2_sTOPF_compute_sexability
@@ -23,32 +28,6 @@ import _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain
 #import _4b_sTOPF_sexability_shared_and_specific
 #import _4c_sTOPF_sexability_detailed
 #import _5a_plot_high_low_stability_tcs
-
-
-# import _2a_sTOPF_result_full_group_PCA
-# import _2b_sTOPF_individual_expressions
-# import _3_sTOPF_analyse_results
-# import _4a_sTOPF_visualize_group_glass_brains
-# import _4b_sTOPF_visualize_individual_glass_brains
-# import _5b_ind_classification
-# import _6b_ind_classification_CV
-# import _7b_ind_classification_CV_clustered
-# import _7c_ind_classification_CV_clustered_HDBSCAN
-# import _7d_ind_classification_CV_clustered_UMAP_HDBSCAN
-# import _8b_sTOPF_visualize_cluster_glass_brains
-# import _8c_sTOPF_visualize_cluster_HDBSCAN_glass_brains
-# import _8d_sTOPF_visualize_cluster_UMAP_HDBSCAN_glass_brains
-# import _9d_cluster_archetypes_UMAP_HDBSCAN
-# import _9e_cluster_networks_UMAP_HDBSCAN
-# import _10d_archetype_brains_UMAP_HDBSCAN
-# import _10e_network_brains_UMAP_HDBSCAN
-# import _11_sti_gradients
-# import _12a_analyse_movie_shared_and_specific
-# import _12a2_analyse_movie_shared_and_specific
-# import _12b_vis_movie_shared_and_specific
-# import _12c_vis_movie_shared_and_specific_netw
-# import _12b2_vis_movie_shared_and_specific
-
 
 # Setup for paths
 hostname = socket.gethostname()
@@ -93,20 +72,6 @@ else:
     # complete_participants_path = f"{base_path}/complete_participants.csv"
     # exclude_path = f"{base_path}/outlier_results/excluded_subjects.csv"
     # Parameter for Mutual Information Estimation
-    
-    # Define movie timepoint parameters
-    #mov_prop = {
-    #    "DD": {"min_timepoint": 6, "max_timepoint": 463},
-    #    "S": {"min_timepoint": 6, "max_timepoint": 445},
-    #    "DPS": {"min_timepoint": 6, "max_timepoint": 479},
-    #    "FG": {"min_timepoint": 6, "max_timepoint": 591},
-    #    "DMV": {"min_timepoint": 6, "max_timepoint": 522},
-    #    "LIB": {"min_timepoint": 6, "max_timepoint": 454},
-    #    "TGTBTU": {"min_timepoint": 6, "max_timepoint": 512},
-    #    "SS": {"min_timepoint": 6, "max_timepoint": 642},
-    #    "REST1": {"min_timepoint": 6, "max_timepoint": 499},
-    #    "REST2": {"min_timepoint": 6, "max_timepoint": 499}
-    #}
 
     base_path =  "/Users/sweis/Data/Arbeit/Juseless/data/project/brainvar_sexdiff_movies" 
     project_ext = "v4"
@@ -144,7 +109,14 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 #_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
 #_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
 #_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
-_4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+
+
+#_4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain_1std.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+#_4b_sTOPF_sex_separation_movie_region_summary_with_3Dbrain_1std.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+#_4c_sTOPF_sex_separation_movie_network_summary_with_3Dbrain_1std.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+#_4d_sTOPF_sex_separation_sub_specific.main(base_path, project_ext, code_ext, nn_mi)
+#_4e_sTOPF_sex_separation_sub_specific_networks.main(base_path, project_ext, code_ext, nn_mi)
 
  
 # _4a_sTOPF_compute_sexability.main(base_path, project_ext, code_ext, nn_mi)
@@ -159,40 +131,3 @@ _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain.main(base_path, pr
 #_4b_sTOPF_sexability_shared_and_specific.main(base_path, project_ext, code_ext,nn_mi, mov_prop, atlas_path, roi_names)
 #top_reg = 10
 #_5a_plot_high_low_stability_tcs.main(base_path, project_ext, code_ext, nn_mi, top_reg)
-
-
-
-# _2a_sTOPF_result_full_group_PCA.main(base_path, project_ext, nn_mi, mov_prop)
-# _2b_sTOPF_individual_expressions.main(base_path, project_ext, nn_mi, mov_prop)
-# _3_sTOPF_analyse_results.main(base_path, project_ext, nn_mi, mov_prop)
-#_4a_sTOPF_visualize_group_glass_brains.main(base_path, project_ext, nn_mi, mov_prop)
-#_4b_sTOPF_visualize_individual_glass_brains.main(base_path, project_ext, nn_mi, mov_prop)
-# for top_reg in [10, 20, 30, 40, 50, 60, 70, 75, 80, 90, 100]: 
-#     _5b_ind_classification.main(base_path, project_ext, nn_mi, mov_prop,top_reg)
-# highest stability 
-#nn_values = [15, 17]
-# models = ["svm", "rf"]
-#models = ["rf"]
-#for nn_mi in nn_values:
-#    for model in models:
-#        for top_reg in [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]: 
-#            _6b_ind_classification_CV.main(base_path, project_ext, nn_mi, mov_prop,top_reg,model) 
-# for cluster_num in [10, 20, 30, 40]: 
-#     _7b_ind_classification_CV_clustered.main(base_path, project_ext, nn_mi, mov_prop, cluster_num)
-# _7c_ind_classification_CV_clustered_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-# _7d_ind_classification_CV_clustered_UMAP_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-# for cluster_num in [10, 20, 30, 40, 50]: 
-#     _8b_sTOPF_visualize_cluster_glass_brains.main(base_path,project_ext,nn_mi,mov_prop,cluster_num)
-# _8c_sTOPF_visualize_cluster_HDBSCAN_glass_brains.main(base_path,project_ext,nn_mi,mov_prop)
-# _8d_sTOPF_visualize_cluster_UMAP_HDBSCAN_glass_brains.main(base_path,project_ext,nn_mi,mov_prop)
-# _9d_cluster_archetypes_UMAP_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-# _9e_cluster_networks_UMAP_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-# _10d_archetype_brains_UMAP_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-# _10e_network_brains_UMAP_HDBSCAN.main(base_path, project_ext, nn_mi, mov_prop)
-#_11_sti_gradients.main(base_path, project_ext, nn_mi, mov_prop)
-#max_reg = 30
-#_12a_analyse_movie_shared_and_specific.main(base_path, project_ext, nn_mi, mov_prop, max_reg)
-#_12a2_analyse_movie_shared_and_specific.main(base_path, project_ext, nn_mi, mov_prop, max_reg, atlas_path, roi_names)
-#_12b_vis_movie_shared_and_specific.main(base_path, project_ext, nn_mi, atlas_path, roi_names)
-#_12b2_vis_movie_shared_and_specific.main(base_path, project_ext, nn_mi, atlas_path, roi_names)
-#_12c_vis_movie_shared_and_specific_netw.main(base_path, project_ext, nn_mi)
