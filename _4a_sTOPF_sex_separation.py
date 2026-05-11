@@ -11,7 +11,8 @@ def main(base_path, proj, code):
     out_dir = f"{results_path}/sex_separability"
     os.makedirs(out_dir, exist_ok=True)
 
-    eps = 1e-8
+    #eps = 1e-8
+    eps = 0
 
     all_movies_results = []
 
