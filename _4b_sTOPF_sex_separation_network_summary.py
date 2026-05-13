@@ -11,7 +11,7 @@ from nilearn import datasets, plotting, surface
 # Use the existing utility plotting style for glass brains and slices.
 # Keep _util_glass_brains.py in the same folder as this script,
 # or somewhere on your PYTHONPATH.
-from _util_glass_brains import create_glassbrains
+from _util_glass_brains_borders import create_glassbrains
 
 
 # ---------------------------------------------------------------------
@@ -362,6 +362,8 @@ def create_all_brains(
         out_path=out_path,
         name=name,
         cmap_mode="continuous",
+        bot=0,
+        top=0.45,
     )
 
 
