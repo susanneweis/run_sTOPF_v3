@@ -18,6 +18,7 @@ import _3b_sTOPF_ind_exp_scatter_plot
 import _4a_sTOPF_sex_separation
 import _4b_sTOPF_sex_separation_network_summary
 import _4c_sTOPF_sex_sep_vs_EV
+import _4c2_sTOPF_sex_sep_vs_EV_per_network
 
 
 
@@ -116,8 +117,9 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 #_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
 #_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
 #_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
-_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+#_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
 #_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext)
+_4c2_sTOPF_sex_sep_vs_EV_per_network.main(base_path, project_ext, code_ext)
 
 #_4b_sTOPF_sex_separation_network_summary_LH_RH.main(base_path, project_ext, code_ext, roi_names, atlas_path)
 #_4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain_1std.main(base_path, project_ext, code_ext, roi_names, atlas_path)

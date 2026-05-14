@@ -26,7 +26,6 @@ def main(base_path, proj, code):
     # -----------------------
     # Paths
     # -----------------------
-
     results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
     res_in_dir = f"{results_path}/sex_separability"
 
@@ -35,16 +34,24 @@ def main(base_path, proj, code):
     outdir = f"{res_in_dir}/sex_sep_vs_unexplained_variance"
     os.makedirs(outdir, exist_ok=True)
 
+    movie_plot_dir = f"{outdir}/plots_by_movie"
+    network_plot_dir = f"{outdir}/plots_by_network"
+
+    os.makedirs(movie_plot_dir, exist_ok=True)
+    os.makedirs(network_plot_dir, exist_ok=True)
+
     # -----------------------
     # Load data
     # -----------------------
     df = pd.read_csv(infile)
 
+    exclude_movies = ["REST1", "REST2", "concat"]
+    df = df[~df["movie"].isin(exclude_movies)].copy()
+
+
     # -----------------------
     # Extract network
     # -----------------------
-
-
     df["Network"] = df["Region"].apply(extract_network)
 
     # -----------------------
@@ -91,8 +98,45 @@ def main(base_path, proj, code):
 
         fig.tight_layout()
 
-        outfile = f"{outdir}/{movie}_score_vs_mean_unexplained_variance_by_network.png"
+        outfile = f"{movie_plot_dir}/{movie}_score_vs_mean_unexplained_variance_by_network.png"
         fig.savefig(outfile, dpi=300, bbox_inches="tight")
         plt.close(fig)
 
-    print(f"Saved plots to: {outdir}")
+    # -----------------------
+    # Plot one scatter plot per network
+    # -----------------------
+    for network, dnetwork in df.groupby("Network", sort=True):
+
+        fig, ax = plt.subplots(figsize=(8, 6))
+
+        for movie, dmovie in dnetwork.groupby("movie", sort=True):
+            ax.scatter(
+                dmovie["mean_unexplained_variance"],
+                dmovie["score"],
+                label=movie,
+                alpha=0.75,
+                s=35,
+                edgecolors="none",
+            )
+
+        ax.set_title(f"{network}: score vs mean unexplained variance")
+        ax.set_xlabel("Mean unexplained variance: mean(1 - EV female, 1 - EV male)")
+        ax.set_ylabel("Score")
+
+        ax.legend(
+            title="Movie",
+            bbox_to_anchor=(1.04, 1),
+            loc="upper left",
+            borderaxespad=0,
+            fontsize=8,
+        )
+
+        fig.tight_layout()
+
+        safe_network = str(network).replace("/", "_").replace(" ", "_")
+        outfile = f"{network_plot_dir}/{safe_network}_score_vs_mean_unexplained_variance_by_movie.png"
+        fig.savefig(outfile, dpi=300, bbox_inches="tight")
+        plt.close(fig)
+
+    print(f"Saved movie-wise plots to: {movie_plot_dir}")
+    print(f"Saved network-wise plots to: {network_plot_dir}")
