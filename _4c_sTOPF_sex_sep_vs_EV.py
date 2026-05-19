@@ -22,7 +22,7 @@ def extract_network(region):
     return "Subcortical"
 
 
-def main(base_path, proj, code):
+def main(base_path, proj, code, full):
     # -----------------------
     # Paths
     # -----------------------
@@ -31,7 +31,10 @@ def main(base_path, proj, code):
 
     infile = f"{res_in_dir}/ALL_movies_sex_diff_scores.csv"
 
-    outdir = f"{res_in_dir}/sex_sep_vs_unexplained_variance"
+    if full:
+        outdir = f"{res_in_dir}/sex_sep_vs_unexplained_variance_full_axis"
+    else:
+        outdir = f"{res_in_dir}/sex_sep_vs_unexplained_variance"
     os.makedirs(outdir, exist_ok=True)
 
     movie_plot_dir = f"{outdir}/plots_by_movie"
@@ -88,6 +91,11 @@ def main(base_path, proj, code):
         ax.set_xlabel("Mean unexplained variance: mean(1 - EV female, 1 - EV male)")
         ax.set_ylabel("Score")
 
+        if full:
+            ax.set_xlim(0.5, 1)
+            ax.set_ylim(0, 1)
+
+
         ax.legend(
             title="Network",
             bbox_to_anchor=(1.04, 1),
@@ -123,6 +131,11 @@ def main(base_path, proj, code):
         ax.set_xlabel("Mean unexplained variance: mean(1 - EV female, 1 - EV male)")
         ax.set_ylabel("Score")
 
+        if full:
+            ax.set_xlim(0.5, 1)
+            ax.set_ylim(0, 1)
+
+
         ax.legend(
             title="Movie",
             bbox_to_anchor=(1.04, 1),
@@ -137,6 +150,60 @@ def main(base_path, proj, code):
         outfile = f"{network_plot_dir}/{safe_network}_score_vs_mean_unexplained_variance_by_movie.png"
         fig.savefig(outfile, dpi=300, bbox_inches="tight")
         plt.close(fig)
+
+    # -----------------------
+    # Plot one overall scatter plot
+    # (all movies + all networks)
+    # -----------------------
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    markers = ["o", "s", "^", "D", "v", "P", "*", "X", "<", ">"]
+    cmap = plt.colormaps["tab20"]
+
+    networks = sorted(df["Network"].unique())
+
+    for i, network in enumerate(networks):
+
+        dnet = df[df["Network"] == network]
+
+        ax.scatter(
+            dnet["mean_unexplained_variance"],
+            dnet["score"],
+            label=network,
+            color=cmap(i),
+            marker=markers[i % len(markers)],
+            alpha=0.75,
+            s=45,
+            edgecolors="black",
+            linewidth=0.3,
+        )
+
+    ax.set_title(
+        "All movies + all networks: score vs mean unexplained variance"
+    )
+    ax.set_xlabel(
+        "Mean unexplained variance: mean(1 - EV female, 1 - EV male)"
+    )
+    ax.set_ylabel("Score")
+
+    if full:
+        ax.set_xlim(0.5, 1)
+        ax.set_ylim(0, 1)
+
+    ax.legend(
+        title="Network",
+        bbox_to_anchor=(1.04, 1),
+        loc="upper left",
+        borderaxespad=0,
+        fontsize=8,
+        ncol=2,
+    )
+
+    fig.tight_layout()
+
+    outfile = f"{outdir}/ALL_movies_ALL_networks_score_vs_mean_unexplained_variance.png"
+    fig.savefig(outfile, dpi=300, bbox_inches="tight")
+    plt.close(fig)
 
     print(f"Saved movie-wise plots to: {movie_plot_dir}")
     print(f"Saved network-wise plots to: {network_plot_dir}")
