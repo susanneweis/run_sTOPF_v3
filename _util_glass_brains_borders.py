@@ -31,7 +31,8 @@ def create_img_for_glassbrain_plot(stat_to_plot, atlas_path, n_roi):
     atlas_data = atlas_img.get_fdata()
     
     # Create empty output image
-    new_img = np.zeros(atlas_data.shape)
+    #new_img = np.zeros(atlas_data.shape)
+    new_img = np.full(atlas_data.shape, np.nan)
     
     # Sanity checks
     a_roi = int(np.max(atlas_data))
@@ -111,24 +112,36 @@ def create_glassbrains(value_file, value_name, value_roi_name, roi_names, at_pat
         else:
             raise ValueError("cmap_mode must be 'discrete' or 'continuous'")
 
+        # plot_glass_brain(
+        #     img,
+        #     cmap=cmap,
+        #     #vmin=roi_values.min(),
+        #     #vmax=roi_values.max(),
+        #     vmin=bot,
+        #     vmax=top,
+        #     threshold=bot,
+        #     colorbar=True,
+        #     title=title_str,
+        #     plot_abs=False
+        # )    
+
         plot_glass_brain(
             img,
             cmap=cmap,
-            #vmin=roi_values.min(),
-            #vmax=roi_values.max(),
             vmin=bot,
             vmax=top,
+            threshold = bot, 
+            symmetric_cbar=False,
             colorbar=True,
             title=title_str,
             plot_abs=False
-        )  
-
+        )
+        
         plt.savefig(output_file, bbox_inches='tight',dpi=300)
         plt.close()
 
         plot_stat_map(
             img,
-            vmax=roi_values.max(),
             cmap=cmap,
             display_mode="mosaic",
             colorbar=True,
