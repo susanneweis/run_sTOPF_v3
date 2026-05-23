@@ -53,6 +53,7 @@ def main(base_path,proj,code,movies_properties):
     os.makedirs(results_path, exist_ok=True)
 
     valid_subjects_path = f"{data_path}/valid_subjects_balanced_sex.csv"
+    valid_subjects_df["subject_ID"] = valid_subjects_df["subject_ID"].astype(str)
 
     movies = list(movies_properties.keys())
 
@@ -86,14 +87,6 @@ def main(base_path,proj,code,movies_properties):
                 dataset = f"BOLD_Schaefer_436_2025_mean_aggregation_task-{curr_mov}_MOVIES.tsv"
                 movie_path =  f"{data_path}/fMRIdata/{dataset}" # Path to fMRI data
 
-                for path in [movie_path, phenotype_path, complete_participants_path]:
-                # for path in [movie_path, phenotype_path, complete_participants_path, exclude_path]:           
-                    if not os.path.exists(path): 
-                        print(f"File not found: {path}")
-                        raise FileNotFoundError
-                print(f"\nPath and Files found: \n - {movie_path}\n - {phenotype_path} \n - {complete_participants_path}\n")
-                #print(f"\nPath and Files found: \n - {movie_path}\n - {phenotype_path} \n - {complete_participants_path}\n {exclude_path}\n")
-                
                 # for each movie seperately 
                 all_data = [] # List to store all movie data
             
@@ -155,8 +148,8 @@ def main(base_path,proj,code,movies_properties):
                     standardized_matrix = standardize_data(formatted_matrix)  # Standardize data (excluding movie)
                     
                     # Separate subjects by gender for PCA
-                    female_subjects = phenotypes[phenotypes['gender'] == 2]['subject_ID']
-                    male_subjects = phenotypes[phenotypes['gender'] == 1]['subject_ID']
+                    female_subjects = valid_subjects_df[valid_subjects_df["gender"] == 2]["subject_ID"]
+                    male_subjects = valid_subjects_df[valid_subjects_df["gender"] == 1]["subject_ID"]
                     
                     # Ensure the subjects exist in the standardized matrix
                     female_subjects = female_subjects[female_subjects.isin(standardized_matrix.columns)]
@@ -298,8 +291,8 @@ def main(base_path,proj,code,movies_properties):
                 concatenated_matrices[region] = combined_matrix
         
                 # Separate subjects by gender for PCA
-                female_subjects = phenotypes[phenotypes['gender'] == 2]['subject_ID']
-                male_subjects = phenotypes[phenotypes['gender'] == 1]['subject_ID']
+                female_subjects = valid_subjects_df[valid_subjects_df["gender"] == 2]["subject_ID"]
+                male_subjects = valid_subjects_df[valid_subjects_df["gender"] == 1]["subject_ID"]
         
                 # Ensure the subjects exist in the standardized matrix
                 female_subjects = female_subjects[female_subjects.isin(combined_matrix.columns)]
