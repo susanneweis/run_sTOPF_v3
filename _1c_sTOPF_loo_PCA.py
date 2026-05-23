@@ -52,7 +52,7 @@ def main(base_path,proj,code,movies_properties):
     results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_PCA_loo/"
     os.makedirs(results_path, exist_ok=True)
 
-    valid_subjects_path = f"{data_path}/valid_subjects_equal_sex.csv"
+    valid_subjects_path = f"{data_path}/valid_subjects_balanced_sex.csv"
 
     movies = list(movies_properties.keys())
 
