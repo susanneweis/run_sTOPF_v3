@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 
 def main(base_path,proj,code,nn): 
     """
@@ -82,13 +83,26 @@ def main(base_path,proj,code,nn):
         corr_df["pair_type"] = corr_df.apply(classify_pair, axis=1)
         corr_df = corr_df.dropna(subset=["pair_type"])
 
+        # Fisher-z transform correlations before averaging
+        eps = 1e-10
+        corr_df["value_z"] = np.arctanh(
+            np.clip(corr_df["value"], -1 + eps, 1 - eps)
+        )
+
         summary = (
             corr_df
-            .groupby(["region", "pair_type"])["value"]
+            .groupby(["region", "pair_type"])["value_z"]
             .mean()
             .unstack("pair_type")
             .reset_index()
         )
+
+        # Transform back to correlation space
+        summary["FF"] = np.tanh(summary["FF"])
+        summary["MM"] = np.tanh(summary["MM"])
+        summary["FM"] = np.tanh(summary["FM"])
+
+
 
         summary = summary.rename(columns={
             "FF": "mean_female_female_corr",

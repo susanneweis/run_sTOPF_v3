@@ -28,6 +28,11 @@ def add_ratio_column(df):
         np.nan
     )
 
+    df["fm_separation_ratio_minshifted"] = (
+        df["fm_separation_ratio"]
+        - df["fm_separation_ratio"].min()
+    )
+
     return df
 
 
@@ -36,7 +41,7 @@ def make_glassbrains_from_file(value_file,output_dir,prefix,roi_names,atlas_path
         "mean_female_female_corr",
         "mean_male_male_corr",
         "mean_female_male_corr",
-        "fm_separation_ratio",
+        "fm_separation_ratio_minshifted",
     ]
 
     for col, curr_bot, curr_top in zip(glassbrain_cols, bot, top):
@@ -100,8 +105,8 @@ def main(base_path,proj,code,nn,roi_names,atlas_path):
     
     prefix ="mean_across_movies"
     value_file = mean_file
-    bot = [0, 0, 0, 0.98]
-    top = [0.4, 0.4, 0.4, 1.02]
+    bot = [0, 0, 0, 0]
+    top = [0.4, 0.4, 0.4, mean_df["fm_separation_ratio_minshifted"].max()]
 
     make_glassbrains_from_file(value_file,output_dir,prefix,roi_names,atlas_path,bot,top)
 
@@ -126,8 +131,8 @@ def main(base_path,proj,code,nn,roi_names,atlas_path):
         movie_df.to_csv(movie_file, index=False)
         print(f"Saved: {movie_file}")
 
-        bot = [0, 0, 0, 0.98]
-        top = [0.4, 0.4, 0.4, 1.02]
+        bot = [0, 0, 0, 0]
+        top = [0.4, 0.4, 0.4, movie_df["fm_separation_ratio_minshifted"].max()]
 
         make_glassbrains_from_file(movie_file,movie_out_dir, movie,roi_names, atlas_path, bot, top)
 

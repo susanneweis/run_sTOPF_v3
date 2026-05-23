@@ -21,8 +21,7 @@ import _4a_sTOPF_sex_separation
 import _4b_sTOPF_sex_separation_network_summary
 import _4c_sTOPF_sex_sep_vs_EV
 import _4d_sTOPF_sex_sep_movie_specific
-
-import _4b_sTOPF_sex_separation_network_summary_LH_RH
+import _5a_sTOPF_emotion_corr
 
 #import _4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain_1std
 #import _4b_sTOPF_sex_separation_movie_region_summary_with_3Dbrain_1std
@@ -115,16 +114,19 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 #_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2c_sTOPF_pairw_subj_similarity_summary_in_and_betw_sex.main(base_path, project_ext, code_ext,nn_mi)
-_2d_sTOPF_sex_differ_brains.main(base_path, project_ext, code_ext,nn_mi, roi_names, atlas_path)
+#_2d_sTOPF_sex_differ_brains.main(base_path, project_ext, code_ext,nn_mi, roi_names, atlas_path)
 #_3a_sTOPF_individual_expressions.main(base_path, project_ext, code_ext, nn_mi, mov_prop)
 #_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
-#_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
-#_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
-#full = 0 
-#_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext, full)
-#full = 1
-#_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext, full)
-#_4d_sTOPF_sex_sep_movie_specific.main(base_path, project_ext, code_ext)
+_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
+_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+full = 0 
+_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext, full)
+full = 1
+_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext, full)
+_4d_sTOPF_sex_sep_movie_specific.main(base_path, project_ext, code_ext)
+
+
+#_5a_sTOPF_emotion_corr.main(base_path, project_ext, code_ext)
 
 #_4b_sTOPF_sex_separation_network_summary_LH_RH.main(base_path, project_ext, code_ext, roi_names, atlas_path)
 #_4b_sTOPF_sex_separation_movie_region_summary_with_glassbrain_1std.main(base_path, project_ext, code_ext, roi_names, atlas_path)
