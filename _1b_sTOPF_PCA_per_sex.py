@@ -94,6 +94,7 @@ def main(base_path, proj, code, movies_properties):
                 
             # Load fMRI data
             movie_data = pd.read_csv(movie_path, sep="\t")
+            movie_data["subject"] = movie_data["subject"].astype(str)
             if "Unnamed: 0" in movie_data.columns:
                 movie_data = movie_data.drop(columns=["Unnamed: 0"]) # Drop unnecessary columns
                     
@@ -143,16 +144,17 @@ def main(base_path, proj, code, movies_properties):
                 
                 region_data = movie_data[["subject", "timepoint", region]]
                 formatted_matrix = region_data.pivot(index="timepoint", columns="subject", values=region)
+                formatted_matrix.columns = formatted_matrix.columns.astype(str)
                     
                 standardized_matrix = standardize_data(formatted_matrix)  # Standardize data (excluding movie)
                 
                 # Separate subjects by gender for PCA
-                female_subjects = phenotypes[phenotypes['gender'] == 2]['subject_ID']
-                male_subjects = phenotypes[phenotypes['gender'] == 1]['subject_ID']
-                
+                female_subjects = valid_subjects_df[valid_subjects_df["gender"] == "female"]["subject_ID"]
+                male_subjects = valid_subjects_df[valid_subjects_df["gender"] == "male"]["subject_ID"]
+
                 # Ensure the subjects exist in the standardized matrix
-                female_subjects = valid_subjects_df[valid_subjects_df["gender"] == 2]["subject_ID"]
-                male_subjects = valid_subjects_df[valid_subjects_df["gender"] == 1]["subject_ID"]
+                female_subjects = female_subjects[female_subjects.isin(standardized_matrix.columns)]
+                male_subjects = male_subjects[male_subjects.isin(standardized_matrix.columns)]
 
                 # Perform PCA separatley for males and females
                 # keep the original naming for further reference
@@ -223,6 +225,7 @@ def main(base_path, proj, code, movies_properties):
         
             # Load fMRI data
             movie_data = pd.read_csv(movie_path, sep="\t")
+            movie_data["subject"] = movie_data["subject"].astype(str)
             if "Unnamed: 0" in movie_data.columns:
                 movie_data = movie_data.drop(columns=["Unnamed: 0"]) # Drop unnecessary columns
             
@@ -272,6 +275,7 @@ def main(base_path, proj, code, movies_properties):
                 # Extract and format data for the current region and movie
                 region_data = movie_data[["subject", "timepoint", region]]
                 formatted_matrix = region_data.pivot(index="timepoint", columns="subject", values=region)
+                formatted_matrix.columns = formatted_matrix.columns.astype(str)
             
                 # Add movie_abbrevation to matrix 
                 formatted_matrix.insert(0, "movie_abbrev", movie_abbrev)  # Insert movie abbreviation as first column
@@ -286,8 +290,8 @@ def main(base_path, proj, code, movies_properties):
             concatenated_matrices[region] = combined_matrix
         
             # Separate subjects by gender for PCA
-            female_subjects = valid_subjects_df[valid_subjects_df["gender"] == 2]["subject_ID"]
-            male_subjects = valid_subjects_df[valid_subjects_df["gender"] == 1]["subject_ID"]   
+            female_subjects = valid_subjects_df[valid_subjects_df["gender"] == "female"]["subject_ID"]
+            male_subjects = valid_subjects_df[valid_subjects_df["gender"] == "male"]["subject_ID"]   
         
             # Ensure the subjects exist in the standardized matrix
             female_subjects = female_subjects[female_subjects.isin(combined_matrix.columns)]

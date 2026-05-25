@@ -147,33 +147,26 @@ def main(base_path,proj,code,movies_properties,nn):
     results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}/results_nn{nn}/pairwise_subject_similarity_nn{nn}/"
     os.makedirs(results_path, exist_ok=True)
  
-    phenotype_path = f"{data_path}/Participant_sex_info.csv"
-    complete_participants_path = f"{data_path}/complete_participants.csv"
-    excluded_participants_path = f"{data_path}/excluded_participants.csv"
+    valid_subjects_path = f"{data_path}/valid_subjects_balanced_sex.csv"
+    if not os.path.exists(valid_subjects_path):
+        raise FileNotFoundError(
+            f"Balanced valid subject list not found: {valid_subjects_path}\n"
+            f"Run create_balanced_valid_subject_list(base_path, proj) first."
+        )
+    
+    valid_subjects_df = pd.read_csv(valid_subjects_path)
+    valid_subjects_df["subject_ID"] = valid_subjects_df["subject_ID"].astype(str)
+    if "subject_ID" in valid_subjects_df.columns:
+        valid_subjects = set(valid_subjects_df["subject_ID"].astype(str))
+    elif "subject" in valid_subjects_df.columns:
+        valid_subjects = set(valid_subjects_df["subject"].astype(str))
+    else:
+        raise ValueError("Valid subject file must contain either a 'subject_ID' or 'subject' column.")
 
     movies = list(movies_properties.keys())
 
-    # Load phenotype data (assumed to be a CSV with a subject ID and gender columns)
-    phenotypes = pd.read_csv(phenotype_path)
-    sex_mapping = {1: 'male', 2: 'female'}
+    print(f"Number of included balanced valid subjects: {len(valid_subjects)}")
 
-    # Load list of complete participants (verified list with participants_verification.py)
-    complete_participants = set(pd.read_csv(complete_participants_path)['subject'].astype(str))
-    excluded_participants = set(pd.read_csv(excluded_participants_path)['subject'].astype(str))
-
-    # Load list of excluded subjects (hormonal outlier detection with hormone_outlier_detection_SD.py)
-    # not yet relevant here 
-    # exclude_df = pd.read_csv(exclude_path, sep=',')
-    # excluded_subjects = set(exclude_df['PCode'].astype(str))
-
-    # Get valid subjects and exclude outliers
-    phenotype_subjects = set(phenotypes['subject_ID'].astype(str))
-    valid_subjects = complete_participants.intersection(phenotype_subjects)
-    valid_subjects = valid_subjects.difference(excluded_participants)
-
-    print(f"Number of included valid subjects after exclusion: {len(valid_subjects)}")
-
-    movies = list(movies_properties.keys())
     #movies.append("concat")
 
     for curr_mov in movies: 

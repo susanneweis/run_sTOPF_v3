@@ -11,7 +11,6 @@ import _1c_sTOPF_loo_PCA
 import _1d_PCA_sTOPF_stability
 import _1e_PCA_sTOPF_stability_plot
 import _1f_PC1_var_expl_brains
-import _1g_SNR_plots
 import _2a_sTOPF_pairw_subj_similarity
 import _2b_sTOPF_compare_similarity_topf
 import _2c_sTOPF_pairw_subj_similarity_summary_in_and_betw_sex
@@ -107,11 +106,10 @@ print(f"\n Path and Files found: \n - {base_path}\n")
 _0a_sTOPF_create_balanced_valid_subject_list.main(base_path, project_ext)
 #_1a_sTOPF_PCA_all.main(base_path, project_ext, code_ext, mov_prop)
 #_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
-#_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
+_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
 #_1d_PCA_sTOPF_stability.main(base_path, project_ext, code_ext, mov_prop)
 #_1e_PCA_sTOPF_stability_plot.main(base_path, project_ext, code_ext)
 #_1f_PC1_var_expl_brains.main(base_path, project_ext, code_ext, mov_prop)
-#_1g_SNR_plots.main(base_path, project_ext, code_ext)
 #_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2c_sTOPF_pairw_subj_similarity_summary_in_and_betw_sex.main(base_path, project_ext, code_ext,nn_mi)

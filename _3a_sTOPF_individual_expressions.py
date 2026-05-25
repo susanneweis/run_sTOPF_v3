@@ -52,46 +52,37 @@ def main(base_path,proj,code,nn_mi,movies_properties):
     results_path = f"{base_path}/results_run_sTOPF_{code}_data_{proj}"
     results_out_path = f"{results_path}/results_nn{nn_mi}"
 
-
     ind_path = f"{results_out_path}/individual_expressions_nn{nn_mi}"
     os.makedirs(ind_path, exist_ok=True)
 
-    phenotype_path = f"{data_path}/Participant_sex_info.csv"
-    complete_participants_path = f"{data_path}/complete_participants.csv"
-    excluded_participants_path = f"{data_path}/excluded_participants.csv"
+    valid_subjects_path = f"{data_path}/valid_subjects_balanced_sex.csv"
+    if not os.path.exists(valid_subjects_path):
+        raise FileNotFoundError(
+            f"Balanced valid subject list not found: {valid_subjects_path}\n"
+            f"Run create_balanced_valid_subject_list(base_path, proj) first."
+        )
+    
+    valid_subjects_df = pd.read_csv(valid_subjects_path)
+    valid_subjects_df["subject_ID"] = valid_subjects_df["subject_ID"].astype(str)
+    if "subject_ID" in valid_subjects_df.columns:
+        valid_subjects = set(valid_subjects_df["subject_ID"].astype(str))
+    elif "subject" in valid_subjects_df.columns:
+        valid_subjects = set(valid_subjects_df["subject"].astype(str))
+    else:
+        raise ValueError("Valid subject file must contain either a 'subject_ID' or 'subject' column.")
 
-    # not relevant yet, as currently not considering hormones
-    # exclude_path = f"{base_path}/results_pipeline/excluded_subjects.csv"
+    #sex_mapping = {1: 'male', 2: 'female'}
+    #subs_sex = pd.read_csv(phenotype_path)
+    #phenotypes = subs_sex
 
-    sex_mapping = {1: 'male', 2: 'female'}
-    subs_sex = pd.read_csv(phenotype_path)
-    phenotypes = subs_sex
-
-    subs_sex['gender'] = subs_sex['gender'].replace(sex_mapping)
-    phenotypes.columns = ['subject_ID', 'gender']
+    #subs_sex['gender'] = subs_sex['gender'].replace(sex_mapping)
+    #phenotypes.columns = ['subject_ID', 'gender']
 
     #movies = ["dd", "s", "dps", "fg", "dmw", "lib", "tgtbtu", "ss", "rest_run-1", "rest_run-2"]
 
     movies = list(movies_properties.keys())
 
-    # Load list of complete participants (verified list with participants_verification.py)
-    complete_participants = set(pd.read_csv(complete_participants_path)['subject'].astype(str))
-    excluded_participants = set(pd.read_csv(excluded_participants_path)['subject'].astype(str))
-
-    # Load list of excluded subjects (hormonal outlier detection with hormone_outlier_detection_SD.py)
-    # not yet relevant here 
-    # exclude_df = pd.read_csv(exclude_path, sep=',')
-    # excluded_subjects = set(exclude_df['PCode'].astype(str))
-
-    # Get valid subjects and exclude outliers
-    phenotype_subjects = set(phenotypes['subject_ID'].astype(str))
-    valid_subjects = complete_participants.intersection(phenotype_subjects)
-    valid_subjects = valid_subjects.difference(excluded_participants)
-
-    # not yet relevant here
-    # valid_subjects = valid_subjects.difference(excluded_subjects)
-
-    print(f"Number of included valid subjects after exclusion: {len(valid_subjects)}")
+    print(f"Number of included balanced valid subjects: {len(valid_subjects)}")
 
     loo_results_all = []
 
@@ -140,7 +131,7 @@ def main(base_path,proj,code,nn_mi,movies_properties):
 
                 rf, rm, diff, fem_similarity, mi_f, mi_m,diff_mi = comp_exp(pca_scores_female,pca_scores_male,region,nn_mi, subj_movie_data)
                
-                sub_sex = subs_sex.loc[subs_sex["subject_ID"] == subj, "gender"].iloc[0]
+                sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
 
                 loo_results_all.append({"subject": subj, "sex": sub_sex, "movie": curr_mov, "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
                 loo_results_subj.append({"subject": subj, "sex": sub_sex, "movie": curr_mov, "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
@@ -155,7 +146,7 @@ def main(base_path,proj,code,nn_mi,movies_properties):
 
             rf, rm, diff, fem_similarity, mi_f, mi_m,diff_mi = comp_exp(pca_scores_female,pca_scores_male,region,nn_mi, sub_movie_data_concat)
                
-            sub_sex = subs_sex.loc[subs_sex["subject_ID"] == subj, "gender"].iloc[0]
+            sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
 
             loo_results_all.append({"subject": subj, "sex": sub_sex, "movie": "concat", "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
             loo_results_subj.append({"subject": subj, "sex": sub_sex, "movie": "concat", "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
