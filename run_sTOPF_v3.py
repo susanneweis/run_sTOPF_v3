@@ -18,7 +18,9 @@ import _2d_sTOPF_sex_differ_brains
 import _3a_sTOPF_individual_expressions
 import _3b_sTOPF_ind_exp_scatter_plot
 import _4a_sTOPF_sex_separation
+import _4a2_sTOPF_sex_separation_uncorr
 import _4b_sTOPF_sex_separation_network_summary
+import _4b2_sTOPF_sex_separation_network_summary_uncorr
 import _4c_sTOPF_sex_sep_vs_EV
 import _4d_sTOPF_sex_sep_movie_specific
 import _5a_sTOPF_emotion_corr
@@ -103,14 +105,14 @@ for path in [base_path]:
 # print(f"\nPath and Files found: \n - {movie_path}\n - {phenotype_path} \n - {complete_participants_path}\n {exclude_path}\n")    
 print(f"\n Path and Files found: \n - {base_path}\n")    
 
-_0a_sTOPF_create_balanced_valid_subject_list.main(base_path, project_ext)
+#_0a_sTOPF_create_balanced_valid_subject_list.main(base_path, project_ext)
 #_1a_sTOPF_PCA_all.main(base_path, project_ext, code_ext, mov_prop)
 #_1b_sTOPF_PCA_per_sex.main(base_path, project_ext, code_ext, mov_prop)
-_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
+#_1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
 #_1d_PCA_sTOPF_stability.main(base_path, project_ext, code_ext, mov_prop)
 #_1e_PCA_sTOPF_stability_plot.main(base_path, project_ext, code_ext)
 #_1f_PC1_var_expl_brains.main(base_path, project_ext, code_ext, mov_prop)
-#_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
+_2a_sTOPF_pairw_subj_similarity.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2b_sTOPF_compare_similarity_topf.main(base_path, project_ext, code_ext, mov_prop,nn_mi)
 #_2c_sTOPF_pairw_subj_similarity_summary_in_and_betw_sex.main(base_path, project_ext, code_ext,nn_mi)
 #_2d_sTOPF_sex_differ_brains.main(base_path, project_ext, code_ext,nn_mi, roi_names, atlas_path)
@@ -118,6 +120,8 @@ _1c_sTOPF_loo_PCA.main(base_path, project_ext, code_ext, mov_prop)
 #_3b_sTOPF_ind_exp_scatter_plot.main(base_path, project_ext, code_ext, nn_mi)
 #_4a_sTOPF_sex_separation.main(base_path, project_ext, code_ext)
 #_4b_sTOPF_sex_separation_network_summary.main(base_path, project_ext, code_ext, roi_names, atlas_path)
+#_4a2_sTOPF_sex_separation_uncorr.main(base_path, project_ext, code_ext)
+#_4b2_sTOPF_sex_separation_network_summary_uncorr.main(base_path, project_ext, code_ext, roi_names, atlas_path)
 #full = 0 
 #_4c_sTOPF_sex_sep_vs_EV.main(base_path, project_ext, code_ext, full)
 #full = 1

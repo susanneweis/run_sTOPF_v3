@@ -190,20 +190,22 @@ def main(base_path,proj,code,movies_properties,nn):
         #    (movie_data["timepoint"] <= properties["max_timepoint"])
         #] 
 
-        sex_df = pd.read_csv(f"{data_path}/Participant_sex_info.csv")
+        #sex_df = pd.read_csv(f"{data_path}/Participant_sex_info.csv")
 
         # --------------------------------------------------
         # standardize sex file columns
         # expects: subject_ID, gender
         # gender: 1 = male, 2 = female
         # --------------------------------------------------
-        sex_df = sex_df.rename(columns={"subject_ID": "subject", "gender": "sex"})
-        sex_df["subject"] = sex_df["subject"].astype(str)
-        sex_df['sex'] = sex_df['sex'].replace(sex_mapping)
+        # sex_df = sex_df.rename(columns={"subject_ID": "subject", "gender": "sex"})
+        # sex_df["subject"] = sex_df["subject"].astype(str)
+        # sex_df['sex'] = sex_df['sex'].replace(sex_mapping)
 
-        male_subjects = set(sex_df.loc[sex_df["sex"] == "male", "subject"])
-        female_subjects = set(sex_df.loc[sex_df["sex"] == "female", "subject"])
-
+        # male_subjects = set(sex_df.loc[sex_df["sex"] == "male", "subject"])
+        # female_subjects = set(sex_df.loc[sex_df["sex"] == "female", "subject"])
+        
+        male_subjects = set(valid_subjects_df.loc[valid_subjects_df["gender"] == "male", "subject_ID"].astype(str))
+        female_subjects = set(valid_subjects_df.loc[valid_subjects_df["gender"] == "female", "subject_ID"].astype(str))
         # --------------------------------------------------
         # filter data
         # --------------------------------------------------

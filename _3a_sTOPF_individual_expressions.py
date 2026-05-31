@@ -131,7 +131,8 @@ def main(base_path,proj,code,nn_mi,movies_properties):
 
                 rf, rm, diff, fem_similarity, mi_f, mi_m,diff_mi = comp_exp(pca_scores_female,pca_scores_male,region,nn_mi, subj_movie_data)
                
-                sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
+                #sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
+                sub_sex = valid_subjects_df.loc[valid_subjects_df["subject_ID"] == subj, "gender"].iloc[0]
 
                 loo_results_all.append({"subject": subj, "sex": sub_sex, "movie": curr_mov, "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
                 loo_results_subj.append({"subject": subj, "sex": sub_sex, "movie": curr_mov, "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
@@ -146,8 +147,8 @@ def main(base_path,proj,code,nn_mi,movies_properties):
 
             rf, rm, diff, fem_similarity, mi_f, mi_m,diff_mi = comp_exp(pca_scores_female,pca_scores_male,region,nn_mi, sub_movie_data_concat)
                
-            sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
-
+            #sub_sex = valid_subjects.loc[valid_subjects["subject_ID"] == subj, "gender"].iloc[0]
+            sub_sex = valid_subjects_df.loc[valid_subjects_df["subject_ID"] == subj, "gender"].iloc[0]
             loo_results_all.append({"subject": subj, "sex": sub_sex, "movie": "concat", "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
             loo_results_subj.append({"subject": subj, "sex": sub_sex, "movie": "concat", "region": region, "correlation_female": rf, "correlation_male": rm, "fem_vs_mal_corr": diff, "fem_vs_mal_regr": fem_similarity, "fem_mi": mi_f, "mal_mi": mi_m,"fem_vs_mal_mi": diff_mi})
 
